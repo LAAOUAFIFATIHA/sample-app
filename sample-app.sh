@@ -1,4 +1,8 @@
 #!/bin/bash
+
+docker stop samplerunning 2>/dev/null || true
+docker rm samplerunning 2>/dev/null || true
+
 # Nettoyer les anciens dossiers
 rm -rf tempdir
 
