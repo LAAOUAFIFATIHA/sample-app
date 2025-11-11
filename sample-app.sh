@@ -1,21 +1,31 @@
-
 #!/bin/bash
+# Nettoyer les anciens dossiers
+rm -rf tempdir
+
+# Créer la structure
 mkdir tempdir
 mkdir tempdir/templates
 mkdir tempdir/static
 
-cp  app.py tempdir/.
+# Copier les fichiers
+cp app.py tempdir/.
 cp -r templates/* tempdir/templates/.
-cp -r static/* tempdir/static/.
-echo "FROM python" >> tempdir/Dockerfile
-echo "RUN pip install flask" >> tempdir/Dockerfile
-echo "COPY ./static /home/myapp/static/" >> tempdir/Dockerfile
-echo "COPY ./templates /home/myapp/templates/" >> tempdir/Dockerfile
-echo "COPY app.py /home/myapp/" >> tempdir/Dockerfile
-echo "EXPOSE 5050" >> tempdir/Dockerfile
-echo "CMD python3 /home/myapp/app.py" >> tempdir/Dockerfile
-cd tempdir
-docker build -t sampleapp .
-docker run -t -d -p 5050:5050 --name samplerunning sampleapp
-docker ps -a
+cp -r static/* tempdir/static/ 2>/dev/null || true
 
+# Créer le Dockerfile
+cat > tempdir/Dockerfile << EOF
+FROM python
+RUN pip install flask
+COPY ./static /home/myapp/static/
+COPY ./templates /home/myapp/templates/
+COPY app.py /home/myapp/
+EXPOSE 5050
+CMD python3 /home/myapp/app.py
+EOF
+
+cd tempdir
+
+# Utiliser Docker avec le chemin complet
+/usr/bin/docker build -t sampleapp .
+/usr/bin/docker run -t -d -p 5050:5050 --name samplerunning sampleapp
+/usr/bin/docker ps -a
