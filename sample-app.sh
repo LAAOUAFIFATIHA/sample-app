@@ -35,6 +35,10 @@ cd tempdir
 #/usr/bin/docker ps -a
 
 # Utiliser Docker de l'hôte
-cd ~/mon-projet-jenkins/sample-app
+cd /home/fatiha/mon-projet-jenkins/sample-app/tempdir
 docker build -t sampleapp .
 docker run -d -p 5050:5050 --name samplerunning sampleapp
+
+# Vérifier
+docker ps
+curl http://localhost:5050
