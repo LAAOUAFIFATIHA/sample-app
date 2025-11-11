@@ -30,6 +30,6 @@ EOF
 cd tempdir
 
 # Utiliser Docker avec le chemin complet
-/usr/bin/docker build -t sampleapp .
-/usr/bin/docker run -t -d -p 5050:5050 --name samplerunning sampleapp
-/usr/bin/docker ps -a
+docker build -t sampleapp .
+docker run -d -p 5050:5050 --name samplerunning sampleapp
+docker ps -a
